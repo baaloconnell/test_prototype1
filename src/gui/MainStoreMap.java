@@ -33,7 +33,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import javafx.scene.shape.Circle;
 import objects.*;
 
-public class MainGroceryMap extends JPanel
+public class MainStoreMap extends JPanel
 {
 
 	ArrayList<Customer> Customers;
@@ -58,10 +58,10 @@ public class MainGroceryMap extends JPanel
 
 	float heatMapDist[];
 	Color heatMapColors[];
-	
-	Boolean showHeatMap;
 
-	public MainGroceryMap()
+	Boolean showHeatMap;
+		
+	public MainStoreMap()
 	{
 		objDataset = new DefaultCategoryDataset();
 		Customers = new ArrayList<Customer>();
@@ -71,10 +71,10 @@ public class MainGroceryMap extends JPanel
 		advertisementNames = new ArrayList<String>(4);
 		advertisementRevenue = new ArrayList<Double>();
 
-		heatMapDist = new float[] { 0.4f, 0.8f };
+		heatMapDist = new float[] { 0.1f, 0.8f };
 		heatMapColors = new Color[] { new Color(1f, 0f, 0f, .015f), new Color(0f, 1f, 0f, .01f) };
 
-		objDataset.setValue(1, "A", "A");
+		objDataset.setValue(0, "A", "A");
 		objDataset.setValue(0, "B", "B");
 		objDataset.setValue(0, "C", "C");
 		objDataset.setValue(0, "D", "D");
@@ -104,17 +104,6 @@ public class MainGroceryMap extends JPanel
 		advertisementNames.add("C");
 		advertisementNames.add("D");
 
-		// red products
-		Products.add(new Product("A", 67, 516, 46, 25, new Color(1f, 0f, 0f, .5f), 5));// red end isle
-		Products.add(new Product("A", 680, 237, 20, 70, new Color(1f, 0f, 0f, .5f)));
-		// blue products
-		Products.add(new Product("B", 169, 376, 20, 70, new Color(0f, 0f, 1f, .5f)));
-		Products.add(new Product("B", 267, 516, 46, 25, new Color(0f, 0f, 1f, .5f), 5));// green end isle
-		// green products
-		Products.add(new Product("C", 368, 169, 20, 70, new Color(0f, 1f, 0f, .5f)));
-		Products.add(new Product("C", 94, 378, 20, 70, new Color(0f, 1f, 0f, .5f)));
-		// yellow products
-		Products.add(new Product("D", 265, 169, 20, 70, new Color(1f, 1f, 0f, .5f)));
 		// customers
 		Customers.add(new Customer(45, 700, 8, new Color(0.5f, 1f, 1f, .5f)));
 		Customers.add(new Customer(45, 750, 8, new Color(0.5f, 0.8f, 1f, .5f)));
@@ -122,9 +111,9 @@ public class MainGroceryMap extends JPanel
 
 		// green location deal
 		LocationDeals.add(
-				new LocationDeal(new Rectangle2D.Double(315, 124, 50, 140), "Brand C (Green)", new Color(0f, 1f, 0f, .15f)));
+				new LocationDeal(new Rectangle2D.Double(508, 504, 500, 60), "Store C (Green)", new Color(0f, 1f, 0f, .15f)));
 		LocationDeals.add(
-				new LocationDeal(new Rectangle2D.Double(217, 540, 150, 100), "Brand B (Blue)", new Color(0f, 0f, 1f, .15f)));
+				new LocationDeal(new Rectangle2D.Double(508, 290, 500, 60), "Store A (Red)", new Color(1f, 0f, 0f, .15f)));
 
 		addMouseListener(new MouseAdapter() {
 			// get the NGZ which contains this click
@@ -198,7 +187,7 @@ public class MainGroceryMap extends JPanel
 		locationDealTimer.start();
 
 		// have the heat map update more rapidly for dragged customers
-		dragHeatMapTimer = new Timer(100, new ActionListener() {
+		dragHeatMapTimer = new Timer(150, new ActionListener() {
 			public void actionPerformed(ActionEvent evt)
 			{
 				if (selectedCustomer != null)
@@ -235,7 +224,7 @@ public class MainGroceryMap extends JPanel
 		// import storeMap image
 		try
 		{
-			URL url = MainWindow.class.getResource("/floor_plan_grid.PNG");
+			URL url = MainWindow.class.getResource("/Floor_Plan_Of_Store.png");
 			storeMap = ImageIO.read(url);
 		} catch (IOException e)
 		{
@@ -362,7 +351,7 @@ public class MainGroceryMap extends JPanel
 		Graphics2D g2d = (Graphics2D) g.create();
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		g2d.drawImage(storeMap, 0, 0, 1023, 834, null);
+		g2d.drawImage(storeMap, 0, 0, 1500, 851, null);
 
 		for (Product p : Products)
 		{

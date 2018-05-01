@@ -47,13 +47,15 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import javafx.scene.shape.Circle;
 import javax.swing.JMenuItem;
+import javax.swing.JCheckBox;
 
 public class MainWindow
 {
 
 	private JFrame frame;
 	private MainGroceryMap groceryMap;
-
+	private MainStoreMap storeMap;
+	JCheckBox chckbxShowHeatMap;
 	/**
 	 * Launch the application.
 	 */
@@ -125,6 +127,7 @@ public class MainWindow
 		mntmNewMenuItem_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
+				changeStoreMap();
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_1);
@@ -146,10 +149,25 @@ public class MainWindow
 
 		JMenu mnNewMenu_4 = new JMenu("Edit");
 		menuBar.add(mnNewMenu_4);
+		
+		chckbxShowHeatMap = new JCheckBox("Show Heat Map");
+		chckbxShowHeatMap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(chckbxShowHeatMap.isSelected());
+				showHeatMap();
+			}
+		});
+		menuBar.add(chckbxShowHeatMap);
 	}
 	
 	private void changeGroceryMap()
 	{
+		if(storeMap != null)
+		{
+			storeMap.close();
+			frame.getContentPane().remove(storeMap);
+			frame.revalidate();
+		}
 		if(groceryMap != null)
 		{
 			groceryMap.close();
@@ -158,7 +176,45 @@ public class MainWindow
 		}
 		groceryMap = new MainGroceryMap();
 		frame.getContentPane().add(groceryMap, BorderLayout.CENTER);
+		frame.setBounds(100, 100, 1015, 834);
 		frame.revalidate();
+		showHeatMap();
+	}
+	
+	private void changeStoreMap()
+	{
+		if(storeMap != null)
+		{
+			storeMap.close();
+			frame.getContentPane().remove(storeMap);
+			frame.revalidate();
+		}
+		if(groceryMap != null)
+		{
+			groceryMap.close();
+			frame.getContentPane().remove(groceryMap);
+			frame.revalidate();
+		}
+		storeMap = new MainStoreMap();
+		frame.getContentPane().add(storeMap, BorderLayout.CENTER);
+		frame.setBounds(100, 100, 1500, 834);
+		frame.revalidate();
+		showHeatMap();
+	}
+	
+	private void showHeatMap()
+	{
+		if(storeMap != null)
+		{
+			storeMap.showHeatMap = chckbxShowHeatMap.isSelected();
+			storeMap.repaint();
+		}
+		if(groceryMap != null)
+		{
+			groceryMap.showHeatMap = chckbxShowHeatMap.isSelected();
+			groceryMap.repaint();
+		}
+		
 	}
 
 }
