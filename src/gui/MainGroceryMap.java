@@ -71,8 +71,9 @@ public class MainGroceryMap extends JPanel
 		advertisementNames = new ArrayList<String>(4);
 		advertisementRevenue = new ArrayList<Double>();
 
-		heatMapDist = new float[] { 0.4f, 0.8f };
-		heatMapColors = new Color[] { new Color(1f, 0f, 0f, .015f), new Color(0f, 1f, 0f, .01f) };
+		heatMapDist = new float[] { 0.25f, 0.8f };
+		heatMapColors = new Color[] { new Color(1f, 0f, 0f, .05f), new Color(0f, 1f, 0f, .025f) };
+
 
 		objDataset.setValue(1, "A", "A");
 		objDataset.setValue(0, "B", "B");
@@ -180,7 +181,7 @@ public class MainGroceryMap extends JPanel
 		timer.start();
 
 		// timer for how often the customer heat map should be updated
-		heatMapTimer = new Timer(300, new ActionListener() {
+		heatMapTimer = new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent evt)
 			{
 				updateHeatMap();
@@ -198,7 +199,7 @@ public class MainGroceryMap extends JPanel
 		locationDealTimer.start();
 
 		// have the heat map update more rapidly for dragged customers
-		dragHeatMapTimer = new Timer(100, new ActionListener() {
+		dragHeatMapTimer = new Timer(200, new ActionListener() {
 			public void actionPerformed(ActionEvent evt)
 			{
 				if (selectedCustomer != null)
@@ -340,6 +341,8 @@ public class MainGroceryMap extends JPanel
 						JOptionPane.showMessageDialog(this,
 								"Customer has recieved deal for " + locationDeal.getProductName(), "Deal Alert",
 								JOptionPane.PLAIN_MESSAGE);
+						//de select the customer as well
+						selectedCustomer = null;
 					}
 				}
 

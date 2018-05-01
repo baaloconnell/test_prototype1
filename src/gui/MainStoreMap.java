@@ -71,8 +71,8 @@ public class MainStoreMap extends JPanel
 		advertisementNames = new ArrayList<String>(4);
 		advertisementRevenue = new ArrayList<Double>();
 
-		heatMapDist = new float[] { 0.1f, 0.8f };
-		heatMapColors = new Color[] { new Color(1f, 0f, 0f, .015f), new Color(0f, 1f, 0f, .01f) };
+		heatMapDist = new float[] { 0.25f, 0.8f };
+		heatMapColors = new Color[] { new Color(1f, 0f, 0f, .05f), new Color(0f, 1f, 0f, .025f) };
 
 		objDataset.setValue(0, "A", "A");
 		objDataset.setValue(0, "B", "B");
@@ -105,16 +105,22 @@ public class MainStoreMap extends JPanel
 		advertisementNames.add("D");
 
 		// customers
-		Customers.add(new Customer(45, 700, 8, new Color(0.5f, 1f, 1f, .5f)));
-		Customers.add(new Customer(45, 750, 8, new Color(0.5f, 0.8f, 1f, .5f)));
-		Customers.add(new Customer(45, 650, 8, new Color(0.5f, 0.9f, 1f, .5f)));
+		Customers.add(new Customer(45, 450, 8, new Color(0.5f, 1f, 1f, .5f)));
+		Customers.add(new Customer(45, 500, 8, new Color(0.5f, 0.8f, 1f, .5f)));
+		Customers.add(new Customer(45, 550, 8, new Color(0.5f, 0.9f, 1f, .5f)));
 
 		// green location deal
 		LocationDeals.add(
 				new LocationDeal(new Rectangle2D.Double(508, 504, 500, 60), "Store C (Green)", new Color(0f, 1f, 0f, .15f)));
+		//red location deal
 		LocationDeals.add(
 				new LocationDeal(new Rectangle2D.Double(508, 290, 500, 60), "Store A (Red)", new Color(1f, 0f, 0f, .15f)));
-
+		//blue location deal
+		LocationDeals.add(
+				new LocationDeal(new Rectangle2D.Double(0, 290, 500, 60), "Store B (Blue)", new Color(0f, 0f, 1f, .15f)));
+		//yellow
+		LocationDeals.add(
+				new LocationDeal(new Rectangle2D.Double(1005, 290, 500, 60), "Store D (Yellow)", new Color(1f, 1f, 0f, .15f)));
 		addMouseListener(new MouseAdapter() {
 			// get the NGZ which contains this click
 			public void mousePressed(MouseEvent e)
@@ -169,7 +175,7 @@ public class MainStoreMap extends JPanel
 		timer.start();
 
 		// timer for how often the customer heat map should be updated
-		heatMapTimer = new Timer(300, new ActionListener() {
+		heatMapTimer = new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent evt)
 			{
 				updateHeatMap();
@@ -187,7 +193,7 @@ public class MainStoreMap extends JPanel
 		locationDealTimer.start();
 
 		// have the heat map update more rapidly for dragged customers
-		dragHeatMapTimer = new Timer(150, new ActionListener() {
+		dragHeatMapTimer = new Timer(200, new ActionListener() {
 			public void actionPerformed(ActionEvent evt)
 			{
 				if (selectedCustomer != null)
@@ -329,6 +335,8 @@ public class MainStoreMap extends JPanel
 						JOptionPane.showMessageDialog(this,
 								"Customer has recieved deal for " + locationDeal.getProductName(), "Deal Alert",
 								JOptionPane.PLAIN_MESSAGE);
+						//de select the customer as well
+						selectedCustomer = null;
 					}
 				}
 
