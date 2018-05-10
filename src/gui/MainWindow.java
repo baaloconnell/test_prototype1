@@ -53,8 +53,7 @@ public class MainWindow
 {
 
 	private JFrame frame;
-	private MainGroceryMap groceryMap;
-	private MainStoreMap storeMap;
+	private DisplayMap displayMap;
 	JCheckBox chckbxShowHeatMap;
 	/**
 	 * Launch the application.
@@ -102,8 +101,6 @@ public class MainWindow
 		frame.setBounds(100, 100, 1015, 834);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 
@@ -114,11 +111,11 @@ public class MainWindow
 		mnFile.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Grocery Map");
+		
 		mntmNewMenuItem.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				changeGroceryMap();
-				
+				changeMap("Grocery");
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
@@ -127,7 +124,7 @@ public class MainWindow
 		mntmNewMenuItem_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				changeStoreMap();
+				changeMap("Store");
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_1);
@@ -158,63 +155,40 @@ public class MainWindow
 			}
 		});
 		menuBar.add(chckbxShowHeatMap);
+		changeMap("Grocery");
 	}
 	
-	private void changeGroceryMap()
+	private void changeMap(String mapName)
 	{
-		if(storeMap != null)
+		if(displayMap != null)
 		{
-			storeMap.close();
-			frame.getContentPane().remove(storeMap);
+			displayMap.close();
+			frame.getContentPane().remove(displayMap);
 			frame.revalidate();
 		}
-		if(groceryMap != null)
+		if(mapName == "Grocery")
 		{
-			groceryMap.close();
-			frame.getContentPane().remove(groceryMap);
-			frame.revalidate();
+			displayMap = new MainGroceryMap();
+			frame.setBounds(100, 100, 1015, 834);
 		}
-		groceryMap = new MainGroceryMap();
-		frame.getContentPane().add(groceryMap, BorderLayout.CENTER);
-		frame.setBounds(100, 100, 1015, 834);
-		frame.revalidate();
-		showHeatMap();
-	}
-	
-	private void changeStoreMap()
-	{
-		if(storeMap != null)
+		else if(mapName == "Store")
 		{
-			storeMap.close();
-			frame.getContentPane().remove(storeMap);
-			frame.revalidate();
-		}
-		if(groceryMap != null)
-		{
-			groceryMap.close();
-			frame.getContentPane().remove(groceryMap);
-			frame.revalidate();
-		}
-		storeMap = new MainStoreMap();
-		frame.getContentPane().add(storeMap, BorderLayout.CENTER);
-		frame.setBounds(100, 100, 1500, 834);
-		frame.revalidate();
-		showHeatMap();
-	}
-	
-	private void showHeatMap()
-	{
-		if(storeMap != null)
-		{
-			storeMap.showHeatMap = chckbxShowHeatMap.isSelected();
-			storeMap.repaint();
-		}
-		if(groceryMap != null)
-		{
-			groceryMap.showHeatMap = chckbxShowHeatMap.isSelected();
-			groceryMap.repaint();
+			displayMap = new MainStoreMap();
+			frame.setBounds(100, 100, 1500, 834);
 		}
 		
+		frame.getContentPane().add(displayMap, BorderLayout.CENTER);
+		frame.revalidate();
+		showHeatMap();
+	}
+
+	private void showHeatMap()
+	{
+		if(displayMap != null)
+		{
+			displayMap.showHeatMap = chckbxShowHeatMap.isSelected();
+			displayMap.repaint();
+		}
 	}
 
 }
